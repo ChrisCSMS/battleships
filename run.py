@@ -48,11 +48,11 @@ class Board:
             return False
         if self.grid[y][x] == Board.empty_location:
             self.grid[y][x] = Board.miss_location
-            print("Miss!")
+            #print("Miss!")
             return True
         elif self.grid[y][x]  == Board.ship_location:
             self.grid[y][x] = Board.hit_location
-            print("Hit!")
+            #print("Hit!")
             return True
         return False
 
@@ -94,7 +94,9 @@ def convert_letter_to_int(input):
     return letter_value - A
 
 def battle(player_board, cpu_board):
+    turn = 1
     while player_board.has_ships_left() and cpu_board.has_ships_left():
+        print(f"Turn {turn}")
         print()
         print("Player Board:")
         player_board.display_board(False)
@@ -105,11 +107,22 @@ def battle(player_board, cpu_board):
         print("Enter co-ordinates to attack: (ex. 'a1','b4')")
         coords = get_inputted_coordinates()
         if coords != None and cpu_board.attack_ship(coords["x"], coords["y"]):
+            clear_screen()
+            cell = cpu_board.grid[coords["y"]][coords["x"]]
+            result = "hit!" if cell == Board.hit_location else "missed!"
+            print(f"Player {result}")
             while True:
+                if not cpu_board.has_ships_left():
+                    break
                 x = random.randint(0, len(player_board.grid)-1)
                 y = random.randint(0, len(player_board.grid)-1)
                 if player_board.attack_ship(x,y):
+                    cell = player_board.grid[y][x]
+                    result = "hit!" if cell == Board.hit_location else "missed!"
+                    print(f"CPU {result}")
+                    turn += 1
                     break
+        
     print()
     print("Player Board:")
     player_board.display_board(False)
@@ -119,7 +132,7 @@ def battle(player_board, cpu_board):
 
 
 
-def new_game():
+def play_game():
     cpu_board = Board(5)
     cpu_board.add_random_ships(4)
     
@@ -129,10 +142,7 @@ def new_game():
     print("-" * 25)
     print("Would you like to place your ships(y) or randomize them(n)?")
     
-    response = input("(y/n) ")
-    while response != "y" and response != "n":
-        print("Invalid input, type y for yes or n for no")
-        response = input("(y/n) ")
+    response = get_input_answer()
     if response == "y":
         clear_screen()
         add_player_ships(player_board, 4)
@@ -144,10 +154,45 @@ def new_game():
     print("Starting game...")
 
     battle(player_board, cpu_board)
+    
+    print("Game Over!")
+    
+    if player_board.has_ships_left():
+        print("You win!")
+    else:
+        print("CPU wins!")
+    print()
+    print("Would you like to play again? (y/n)")
+    answer = get_input_answer()
+    if answer == "y":
+        clear_screen()
+        print("Starting new game...")
+    else: 
+        clear_screen()
+        print("Are you sure? (y/n) ")
+        answer = get_input_answer()
+        if answer == "y":
+            clear_screen()
+            print("Are you really REALLY sure? (y/n) ")
+            answer = get_input_answer()
+            if answer == "y":
+                clear_screen()
+                print("Okay, I'll just leave it here in case you change your mind...")
+    play_game()
+    
+    
+    
+
+def get_input_answer():
+    response = input("(y/n) ")
+    while response != "y" and response != "n":
+        print("Invalid input, type y for yes or n for no")
+        response = input("(y/n) ")
+    return response
 
 def clear_screen():
     print("\n"*50) 
 
 
 
-new_game()
+play_game()
