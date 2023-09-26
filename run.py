@@ -1,10 +1,16 @@
 import random
 
 class Board:
+    """
+    Represents the board and the current state of it's cells(empty, hit, missed, ship). 
+    It contains functions to change the state of the board such as adding ships and attempting attacks. 
+    It can display the board to the terminal. 
+    """
     empty_location = "-"
     hit_location = "*"
     miss_location = "X"
     ship_location = "@"
+    
     def __init__(self, board_size):
         self.grid = [ [Board.empty_location]*board_size for i in range(board_size)]
 
@@ -39,20 +45,19 @@ class Board:
             return True
         return False
     
-    """
-    Returns true if input co-ordinates were valid. 
-    Returns false if input co-ordinates are invalid.
-    """
     def attack_ship(self, x, y):
+        """
+        Handles attacking the board at the given coordinates.
+        Returns true if input co-ordinates were valid. 
+        Returns false if input co-ordinates are invalid.
+        """
         if x < 0 or x >= len(self.grid) or y < 0 or y >= len(self.grid):
             return False
         if self.grid[y][x] == Board.empty_location:
             self.grid[y][x] = Board.miss_location
-            #print("Miss!")
             return True
         elif self.grid[y][x]  == Board.ship_location:
             self.grid[y][x] = Board.hit_location
-            #print("Hit!")
             return True
         return False
 
@@ -60,6 +65,10 @@ class Board:
         return str(self.grid).count(Board.ship_location) > 0
 
 def add_player_ships(board, no_of_player_ships):
+    """
+    Gets input from the player for where they should add their ships.
+    The ship is added to the input coordinates if they are valid.
+    """
     board.display_board(False)
     print("Enter your next ship's co-ordinates (ex. 'a1','b4')")
     player_ships_left = no_of_player_ships
@@ -79,6 +88,10 @@ def get_inputted_coordinates():
     return processed_input
 
 def process_input(input):
+    """
+    Verifies that the input is in a Letter-Number format such as A2
+    Returns a dictionary of the input as x and y coordinates
+    """
     if len(input) == 2:
         if input[0].isalpha():
             if input[1].isnumeric():
@@ -88,12 +101,20 @@ def process_input(input):
     return None
 
 def convert_letter_to_int(input):
+    """
+    Converts a character to an integer index by offsetting it with the value of the 'A' character
+    """
     letter = input.upper()
     A = ord('A')
     letter_value = ord(letter)
     return letter_value - A
 
 def battle(player_board, cpu_board):
+    """
+    Handles the battle mechanics for the game.
+    It displays the current state of the boards;
+    and allows the player and CPU to take their turns.
+    """
     turn = 1
     while player_board.has_ships_left() and cpu_board.has_ships_left():
         print(f"Turn {turn}")
@@ -133,6 +154,9 @@ def battle(player_board, cpu_board):
 
 
 def play_game():
+    """
+    Initializes and runs the game and handles restarting the game when it has finished.
+    """
     cpu_board = Board(5)
     cpu_board.add_random_ships(4)
     
@@ -184,6 +208,9 @@ def play_game():
     
 
 def get_input_answer():
+    """
+    Gets a valid Yes(y) or No(n) input from the user
+    """
     response = input("(y/n) ")
     while response != "y" and response != "n":
         print("Invalid input, type y for yes or n for no")
@@ -191,6 +218,9 @@ def get_input_answer():
     return response
 
 def clear_screen():
+    """
+    Clears the screen by adding empty space to make the terminal more readable.
+    """
     print("\n"*50) 
 
 
