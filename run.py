@@ -1,6 +1,7 @@
 import random
 from colorama import Fore
 
+
 class Board:
     """
     Represents the board and the current state of it's cells
@@ -75,7 +76,7 @@ class Board:
 
 
 def color(color, str):
-    return color + str + Fore.WHITE 
+    return color + str + Fore.WHITE
 
 
 def add_player_ships(board, no_of_player_ships):
@@ -94,7 +95,7 @@ def add_player_ships(board, no_of_player_ships):
             board.display_board(False)
             print()
         else:
-            print(color(Fore.RED, "Invalid Input, enter a position on the grid."))
+            print(color(Fore.RED, "Enter a position on the grid."))
 
 
 def get_inputted_coordinates():
@@ -114,7 +115,7 @@ def process_input(input):
                 x = convert_letter_to_int(input[0])
                 y = int(input[1])-1
                 return {"x": x, "y": y}
-    print(color(Fore.RED, "Invalid input, please enter a letter and number (ex. 'a2')"))
+    print(color(Fore.RED, "Please enter a letter and number (ex. 'a2')"))
     return None
 
 
