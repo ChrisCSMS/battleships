@@ -1,5 +1,5 @@
 import random
-
+from colorama import Fore
 
 class Board:
     """
@@ -37,6 +37,12 @@ class Board:
             for col in row:
                 if hide_ships:
                     col = col.replace(Board.ship_loc, Board.empty_loc)
+                if col == Board.ship_loc:
+                    col = color(Fore.CYAN, col)
+                elif col == Board.hit_loc:
+                    col = color(Fore.RED, col)
+                elif col == Board.miss_loc:
+                    col = color(Fore.MAGENTA, col)
                 print(col, end=" ")
             print()
 
@@ -68,6 +74,10 @@ class Board:
         return str(self.grid).count(Board.ship_loc) > 0
 
 
+def color(color, str):
+    return color + str + Fore.WHITE 
+
+
 def add_player_ships(board, no_of_player_ships):
     """
     Gets input from the player for where they should add their ships.
@@ -84,7 +94,7 @@ def add_player_ships(board, no_of_player_ships):
             board.display_board(False)
             print()
         else:
-            print("Invalid Input")
+            print(color(Fore.RED, "Invalid Input, enter a position on the grid."))
 
 
 def get_inputted_coordinates():
@@ -104,7 +114,7 @@ def process_input(input):
                 x = convert_letter_to_int(input[0])
                 y = int(input[1])-1
                 return {"x": x, "y": y}
-    print("Invalid entry, please enter a letter and number (ex. 'a2')")
+    print(color(Fore.RED, "Invalid input, please enter a letter and number (ex. 'a2')"))
     return None
 
 
@@ -176,7 +186,7 @@ def play_game():
     cpu_board.add_random_ships(4)
 
     player_board = Board(5)
-    print(r"""
+    print(color(Fore.CYAN, r"""
      ___           _    _    _
     (  _`\        ( )_ ( )_ (_ )              ( )
     | (_) )   _ _ | ,_)| ,_) | |    __    ___ | |__  (_) _ _     ___
@@ -185,14 +195,14 @@ def play_game():
     (____/'`\__,_)`\__)`\__)(___)`\____)(____/(_) (_)(_)| ,__/'(____/
                                                         | |
                                                         (_)
-    """)
-    print("Welcome to Battleships!")
+    """))
+    print(color(Fore.BLUE, "Welcome to Battleships!"))
     print("-" * 25)
     print("Would you like to view the tutorial? (y/n) ")
     tutorial = get_input_answer()
     if tutorial == "y":
 
-        print(r"""
+        print(color(Fore.CYAN, r"""
          ___________________________________________________________________
         |                                                                   |
         |                           Battleships                             |
@@ -206,7 +216,7 @@ def play_game():
         |                                                                   |
         |___________________________________________________________________|
 
-        """)
+        """))
     print("Would you like to place your ships(y) or randomize them(n)?")
 
     response = get_input_answer()
@@ -245,7 +255,7 @@ def get_input_answer():
     """
     response = input("(y/n) ")
     while response != "y" and response != "n":
-        print("Invalid input, type y for yes or n for no")
+        print(color(Fore.RED, "Invalid input, type y for yes or n for no"))
         response = input("(y/n) ")
     return response
 
