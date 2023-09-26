@@ -104,6 +104,7 @@ def process_input(input):
                 x = convert_letter_to_int(input[0])
                 y = int(input[1])-1
                 return {"x": x, "y": y}
+    print("Invalid entry, please enter a letter and number (ex. 'a2')")
     return None
 
 
@@ -175,9 +176,37 @@ def play_game():
     cpu_board.add_random_ships(4)
 
     player_board = Board(5)
-
+    print(r"""
+     ___           _    _    _
+    (  _`\        ( )_ ( )_ (_ )              ( )
+    | (_) )   _ _ | ,_)| ,_) | |    __    ___ | |__  (_) _ _     ___
+    |  _ <' /'_` )| |  | |   | |  /'__`\/',__)|  _ `\| |( '_`\ /',__)
+    | (_) )( (_| || |_ | |_  | | (  ___/\__, \| | | || || (_) )\__, \
+    (____/'`\__,_)`\__)`\__)(___)`\____)(____/(_) (_)(_)| ,__/'(____/
+                                                        | |
+                                                        (_)
+    """)
     print("Welcome to Battleships!")
     print("-" * 25)
+    print("Would you like to view the tutorial? (y/n) ")
+    tutorial = get_input_answer()
+    if tutorial == "y":
+
+        print(r"""
+         ___________________________________________________________________
+        |                                                                   |
+        |                           Battleships                             |
+        |___________________________________________________________________|
+        |                                                                   |
+        | Battleships is a game where you attack enemy ships                |
+        | by inputting co-ordinates.                                        |
+        | The player can't see where the enemy ships are placed.            |
+        | Co-ordinates range from 1-5 and A-E and are inputted as 'a2'      |
+        | Whoever destroys the others ships first is the winner.            |
+        |                                                                   |
+        |___________________________________________________________________|
+
+        """)
     print("Would you like to place your ships(y) or randomize them(n)?")
 
     response = get_input_answer()
@@ -205,19 +234,9 @@ def play_game():
     if answer == "y":
         clear_screen()
         print("Starting new game...")
+        play_game()
     else:
-        clear_screen()
-        print("Are you sure? (y/n) ")
-        answer = get_input_answer()
-        if answer == "y":
-            clear_screen()
-            print("Are you really REALLY sure? (y/n) ")
-            answer = get_input_answer()
-            if answer == "y":
-                clear_screen()
-                print("Okay, I'll just leave it here " +
-                      "in case you change your mind...")
-    play_game()
+        print("Thanks for playing!")
 
 
 def get_input_answer():
