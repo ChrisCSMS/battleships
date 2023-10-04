@@ -37,8 +37,6 @@ Ships are indicated with the "@" symbol, misses are indicated with "X" and hits 
 
 The first to sink their opponents ships is the winner.
 
-## User Experience
-
 # User Experience (UX)
 
 ## Initial Discussion
