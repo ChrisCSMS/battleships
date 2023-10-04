@@ -211,6 +211,5 @@ All content was written by myself.
 I would like to acknowledge the help I recieved in developing this project.
 
 * Slack Community, for advice and recommendations.
-* W3Schools for their helpful tutorials. 
-* Code Institute Love Maths project which prepared me for this project. 
+* Code Institute Love Sandwiches project which prepared me for this project. 
 
